@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMove - Reporte Confirmado</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff1dd;
+            color: #1f1f1f;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background-color: #47919e;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .confirmation-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            background-color: #47919e;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #47919e;
+            margin-bottom: 10px;
+        }
+        .points {
+            background-color: white;
+            border-radius: 20px;
+            padding: 10px 25px;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #47919e;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background-color: #47919e;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .share-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .share-btn {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">EcoMove</div>
+    </div>
+    
+    <div class="confirmation-container">
+        <div class="checkmark">✓</div>
+        <h1>Reporte Enviado!</h1>
+        <p>Obrigado por contribuir para melhorar sua cidade.</p>
+        
+        <div class="points">
+            +10 pontos ganhos!
+        </div>
+        
+        <p>Seu reporte será verificado e encaminhado para a prefeitura.</p>
+        
+        <button class="btn" onclick="window.location.href='mapa.html'">Voltar ao Mapa</button>
+        
+        <div class="share-options">
+            <div class="share-btn">
+                <span>Compartilhar</span>
+            </div>
+            <div class="share-btn" onclick="window.location.href='recompensas.html'">
+                <span>Ver Recompensas</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

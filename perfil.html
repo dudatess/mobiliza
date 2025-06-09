@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMove - Perfil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary-color: #47919e;
+            --secondary-color: #3a7c8a;
+            --accent-color: #e67e22;
+            --text-dark: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .header {
+            background: var(--primary-color);
+            padding: 15px 0;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-item {
+            padding: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .profile-container {
+            padding: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: -50px auto 15px;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            background: var(--primary-color);
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--text-dark);
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .level-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .progress-container {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 65%;
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .stats-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 5px 0;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .social-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .social-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .nav-item {
+                font-size: 16px;
+                padding: 10px;
+            }
+            
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+                margin: -60px auto 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-item {
+                font-size: 12px;
+                padding: 5px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+            .header {
+        background: var(--primary-color);
+        padding: 15px 0;
+        text-align: center;
+        color: white;
+        position: relative;
+        z-index: 10; /* Garante que o header fique acima de tudo */
+    }
+
+    .profile-container {
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 1; /* Mantém o conteúdo abaixo do header */
+        margin-top: 20px; /* Espaço extra após o header */
+    }
+
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 auto 15px; /* Remove a margem negativa */
+        border: 3px solid white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        overflow: hidden;
+        background: var(--primary-color);
+        position: relative;
+        top: 0; /* Remove qualquer posicionamento absoluto */
+    }
+
+    @media (min-width: 768px) {
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px; /* Mantém centralizado sem margem negativa */
+        }
+        
+        .profile-container {
+            margin-top: 30px; /* Espaço maior em desktop */
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">MOBILIZA</div>
+    </div>
+    
+    <div class="nav">
+        <div class="nav-item" onclick="window.location.href='mapa.html'">Mapa</div>
+        <div class="nav-item" onclick="window.location.href='recompensas.html'">Recompensas</div>
+        <div class="nav-item" onclick="window.location.href='comunidade.html'">Comunidade</div>
+        <div class="nav-item active" onclick="window.location.href='perfil.html'">Perfil</div>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-photo">
+                <img src="https://us.123rf.com/450wm/jemastock/jemastock2001/jemastock200121319/137466217-mulher-sorrindo-com-%C3%B3culos-de-sol-perfil-desenho-animado.jpg" alt="Foto do usuário">
+            </div>
+            <h1>Ana Beatriz</h1>
+            <p>@ana_ecowarrior</p>
+            <div class="level-badge">Nível 15 | Eco Champion</div>
+        </div>
+
+        <div class="progress-container">
+            <p style="margin: 0 0 10px 0; font-size: 14px;">Progresso: 65% para o próximo nível</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="social-stats">
+            <div class="social-card">
+                <div class="stat-value">1.8K</div>
+                <div class="stat-label">Seguidores</div>
+            </div>
+            <div class="social-card">
+                <div class="stat-value">950</div>
+                <div class="stat-label">Seguindo</div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-road stat-icon"></i>
+                <div class="stat-value">428 km</div>
+                <div class="stat-label">Rodados</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-exclamation-triangle stat-icon"></i>
+                <div class="stat-value">63</div>
+                <div class="stat-label">Reportes</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-check-double stat-icon"></i>
+                <div class="stat-value">184</div>
+                <div class="stat-label">Validações</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-trophy stat-icon"></i>
+                <div class="stat-value">3.2K</div>
+                <div class="stat-label">Pontos</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

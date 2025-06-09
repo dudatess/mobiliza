@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMove - Recompensas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #1f1f1f;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #47919e;
+            padding: 15px 0;
+            text-align: center;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #47919e;
+            border-bottom: 2px solid #47919e;
+        }
+
+        .points-counter {
+            text-align: center;
+            padding: 15px;
+            background-color: #e0f7fa;
+            margin: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .points-counter span {
+            color: #47919e;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .store-container {
+            padding: 0 15px 15px;
+        }
+
+        .store-section {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #47919e;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f8f8f8;
+        }
+
+        .inventory-grid,
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .reward-card,
+        .coupon-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .coupon-card {
+            border: 2px dashed #2ecc71;
+        }
+
+        .reward-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .reward-card .reward-icon {
+            color: #47919e;
+        }
+
+        .coupon-card .reward-icon {
+            color: #2ecc71;
+        }
+
+        .reward-card h3,
+        .coupon-card h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .reward-card p,
+        .coupon-card p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cost-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e67e22;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .validity-badge {
+            background-color: #f1c40f;
+            color: #2c3e50;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .redeem-btn {
+            background-color: #47919e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .coupon-card .redeem-btn {
+            background-color: #2ecc71;
+        }
+
+        .redeem-btn.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .confirmation-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .checkmark {
+            font-size: 50px;
+            color: #47919e;
+            margin-bottom: 15px;
+            animation: checkmark 0.5s ease-in-out;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">MOBILIZA</div>
+    </div>
+    
+    <div class="nav">
+        <div class="nav-item" onclick="window.location.href='mapa.html'">Mapa</div>
+        <div class="nav-item" onclick="window.location.href='recompensas.html'">Recompensas</div>
+        <div class="nav-item" onclick="window.location.href='comunidade.html'">Comunidade</div> <!-- Novo botão -->
+        <div class="nav-item" onclick="window.location.href='perfil.html'">Perfil</div> 
+    </div>
+
+    <div class="points-counter">
+        Seus Pontos: <span id="current-points">850</span> 🌱
+    </div>
+
+    <div class="store-container">
+        <div class="store-section">
+            <h3 class="section-title">
+                <i class="fas fa-suitcase"></i>
+                Seu Inventário
+            </h3>
+            <div class="inventory-grid">
+                <div class="coupon-card">
+                    <div class="reward-icon">🚲</div>
+                    <h3>30% desconto bicicleta</h3>
+                    <div class="validity-badge">Válido até 30/12/2024</div>
+                    <button class="redeem-btn">Usar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="store-section">
+            <h3 class="section-title">
+                <i class="fas fa-store"></i>
+                Loja de Recompensas
+            </h3>
+            <div class="rewards-grid">
+                <div class="reward-card">
+                    <div class="cost-badge">300 pts</div>
+                    <div class="reward-icon">🚲</div>
+                    <h3>30% de desconto</h3>
+                    <p>Aluguel de bicicleta</p>
+                    <button class="redeem-btn">Resgatar</button>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="cost-badge">250 pts</div>
+                    <div class="reward-icon">🛴</div>
+                    <h3>20% de desconto</h3>
+                    <p>Aluguel de patinete</p>
+                    <button class="redeem-btn">Resgatar</button>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="cost-badge">500 pts</div>
+                    <div class="reward-icon">🎁</div>
+                    <h3>Brinde sustentável</h3>
+                    <p>Kit EcoMove</p>
+                    <button class="redeem-btn disabled">Pontos insuficientes</button>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="cost-badge">700 pts</div>
+                    <div class="reward-icon">🚌</div>
+                    <h3>Passe de ônibus</h3>
+                    <p>1 dia grátis</p>
+                    <button class="redeem-btn">Resgatar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-ups -->
+    <div class="overlay" id="overlay"></div>
+    <div class="confirmation-popup" id="confirmationPopup">
+        <div class="checkmark">✓</div>
+        <h3>Recompensa resgatada!</h3>
+        <p>Seu cupom foi adicionado ao inventário</p>
+    </div>
+
+    <script>
+        let userPoints = 850;
+        const inventoryGrid = document.querySelector('.inventory-grid');
+
+        document.querySelectorAll('.redeem-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                if (!this.classList.contains('disabled')) {
+                    const card = this.closest('.reward-card');
+                    const cost = parseInt(card.querySelector('.cost-badge').textContent);
+                    
+                    if (userPoints >= cost) {
+                        // Atualiza pontos
+                        userPoints -= cost;
+                        document.getElementById('current-points').textContent = userPoints;
+
+                        // Mostra pop-up
+                        showConfirmationPopup();
+
+                        // Adiciona ao inventário
+                        addToInventory(card);
+                    } else {
+                        alert('Pontos insuficientes!');
+                    }
+                }
+            });
+        });
+
+        function showConfirmationPopup() {
+            const popup = document.getElementById('confirmationPopup');
+            const overlay = document.getElementById('overlay');
+            
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+            
+            setTimeout(() => {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+            }, 2000);
+        }
+
+        function addToInventory(originalCard) {
+            const newCard = document.createElement('div');
+            newCard.className = 'coupon-card';
+            
+            // Conteúdo do card
+            newCard.innerHTML = `
+                ${originalCard.querySelector('.reward-icon').outerHTML}
+                <h3>${originalCard.querySelector('h3').textContent}</h3>
+                <div class="validity-badge">${getExpiryDate()}</div>
+                <button class="redeem-btn">Usar</button>
+            `;
+
+            inventoryGrid.prepend(newCard);
+        }
+
+        function getExpiryDate() {
+            const expiryDate = new Date();
+            expiryDate.setMonth(expiryDate.getMonth() + 1);
+            return `Válido até ${expiryDate.toLocaleDateString('pt-BR')}`;
+        }
+    </script>
+</body>
+</html>

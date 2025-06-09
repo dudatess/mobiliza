@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMove - Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff1dd;
+            color: #1f1f1f;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header {
+            background-color: #47919e;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 80%;
+            max-width: 350px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #47919e;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #47919e;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #3a7a85;
+        }
+        .signup-link {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        a {
+            color: #47919e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">MOBILIZA</div>
+    </div>
+    
+    <div class="login-container">
+        <h1>Bem-vindo</h1>
+        <div class="input-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="seu@email.com">
+        </div>
+        <div class="input-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+        <button class="btn" onclick="window.location.href='mapa.html'">Entrar</button>
+        
+        <div class="signup-link">
+            Não tem uma conta? <a href="#">Cadastre-se</a>
+        </div>
+    </div>
+</body>
+</html>

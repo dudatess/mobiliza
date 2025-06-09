@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMove - Coimbra</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #47919e;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .nav-item {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: #47919e;
+            border-bottom: 2px solid #47919e;
+        }
+        #map {
+            flex: 1;
+            width: 100%;
+        }
+        .floating-btn {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        .locate-btn {
+            bottom: 20px;
+            right: 20px;
+            color: #47919e;
+        }
+        .report-btn {
+            bottom: 80px;
+            right: 20px;
+            background-color: #e74c3c;
+            color: white;
+        }
+        .vehicle-popup {
+            text-align: center;
+        }
+        .rent-btn {
+            background-color: #47919e;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho original com navegação -->
+    <div class="header">
+        <div class="logo">MOBILIZA</div>
+    </div>
+    
+    <div class="nav">
+        <div class="nav-item" onclick="window.location.href='mapa.html'">Mapa</div>
+        <div class="nav-item" onclick="window.location.href='recompensas.html'">Recompensas</div>
+        <div class="nav-item" onclick="window.location.href='comunidade.html'">Comunidade</div> <!-- Novo botão -->
+        <div class="nav-item" onclick="window.location.href='perfil.html'">Perfil</div> 
+    </div>
+
+    <div id="map"></div>
+    
+    <!-- Botões flutuantes -->
+    <div class="floating-btn locate-btn" id="locate-btn">
+        <i class="fas fa-location-arrow"></i>
+    </div>
+    <div class="floating-btn report-btn" onclick="window.location.href='reporte.html'">
+        <i class="fas fa-exclamation"></i>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Mapa centrado em Coimbra
+        const map = L.map('map').setView([40.2056, -8.4195], 14);
+
+        // Camada do mapa
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Ícones personalizados
+        // Ícones personalizados (substitua no seu script)
+        // Ícones personalizados (bicicleta com cores diferentes)
+const bikeIcon = L.divIcon({
+    html: '<div style="background-color: #2e86c1; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-bicycle" style="color: white; font-size: 16px;"></i></div>',
+    iconSize: [30, 30],
+    className: 'bike-icon'
+});
+
+const scooterIcon = L.divIcon({
+    html: '<div style="background-color: #e67e22; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-bicycle" style="color: white; font-size: 16px;"></i></div>', // Mesmo ícone, cor diferente
+    iconSize: [30, 30],
+    className: 'scooter-icon'
+});
+        // Veículos em Coimbra (aumentei a quantidade)
+        const vehicles = [
+            // Bicicletas
+            { type: 'bike', coords: [40.2070, -8.4165] }, // Praça da República
+            { type: 'bike', coords: [40.2035, -8.4200] }, // Universidade
+            { type: 'bike', coords: [40.2136, -8.4287] }, // Santa Clara
+            { type: 'bike', coords: [40.1992, -8.4104] }, // Estação Nova
+            { type: 'bike', coords: [40.2103, -8.4332] }, // Parque Verde
+            
+            // Patinetes
+            { type: 'scooter', coords: [40.2090, -8.4250] }, // Santa Clara
+            { type: 'scooter', coords: [40.2000, -8.4150] }, // Baixa
+            { type: 'scooter', coords: [40.2058, -8.4226] }, // Sé Velha
+            { type: 'scooter', coords: [40.1964, -8.4193] }, // Solum
+            { type: 'scooter', coords: [40.2165, -8.4398] } // Vale das Flores
+        ];
+
+        // Adicionando todos os veículos
+        vehicles.forEach(vehicle => {
+            const marker = L.marker(vehicle.coords, {
+                icon: vehicle.type === 'bike' ? bikeIcon : scooterIcon
+            }).addTo(map);
+            
+            marker.bindPopup(`
+                <div class="vehicle-popup">
+                    <h3>${vehicle.type === 'bike' ? 'Bicicleta' : 'Patinete'}</h3>
+                    <p>Distância: ${Math.floor(Math.random() * 500) + 100}m</p>
+                    <button class="rent-btn" onclick="window.location.href='aluguel.html'">Alugar</button>
+                </div>
+            `);
+        });
+
+        // Geolocalização
+        document.getElementById('locate-btn').addEventListener('click', () => {
+            navigator.geolocation.getCurrentPosition(
+                pos => map.flyTo([pos.coords.latitude, pos.coords.longitude], 16),
+                err => alert("Ative a localização no seu dispositivo.")
+            );
+        });
+    </script>
+</body>
+</html>

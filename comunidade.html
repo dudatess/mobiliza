@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMove - Comunidade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #47919e;
+            padding: 15px 0;
+            text-align: center;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #47919e;
+            border-bottom: 2px solid #47919e;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background-color: white;
+            padding: 10px 15px;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background-color: #47919e;
+            color: white;
+        }
+
+        .community-container {
+            flex: 1;
+            padding: 15px;
+        }
+
+        /* Seção de Validação */
+        .validation-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .report-photo {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .validation-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .validate-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .valid-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .invalid-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .location-tag {
+            background-color: #47919e;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        /* Seção de Conquistas */
+        .achievement-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #47919e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .achievement-icon {
+            font-size: 24px;
+            color: #47919e;
+        }
+
+        .like-btn {
+            margin-left: auto;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .like-btn.liked {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        
+        .user-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .user-photo:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .camera-icon {
+            color: white;
+            font-size: 24px;
+        }
+
+        .achievement-card {
+            position: relative;
+        }
+
+        .distance-badge {
+            background-color: #47919e;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Adicione isto no início do body -->
+<div class="header">
+    <div class="logo">MOBILIZA</div>
+</div>
+
+<div class="nav">
+    <div class="nav-item" onclick="window.location.href='mapa.html'">Mapa</div>
+    <div class="nav-item" onclick="window.location.href='recompensas.html'">Recompensas</div>
+    <div class="nav-item active" onclick="window.location.href='comunidade.html'">Comunidade</div>
+    <div class="nav-item" onclick="window.location.href='perfil.html'">Perfil</div>
+</div>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="showTab('validation')">Validar Reportes</button>
+        <button class="tab-btn" onclick="showTab('achievements')">Conquistas</button>
+    </div>
+
+    <div class="community-container" id="validationTab">
+        <!-- Reporte 1 -->
+        <div class="validation-card">
+            <div class="location-tag">500m de você</div>
+            <img src="https://bikeregistrada.com.br/blog/wp-content/uploads/2024/10/ciclovia.jpeg" class="report-photo" alt="Reporte">
+            <h3>Buraco na Ciclovia</h3>
+            <p>Reportado por: @ciclista123</p>
+            <div class="validation-actions">
+                <button class="validate-btn valid-btn" onclick="validateReport(true)">
+                    <i class="fas fa-check"></i> Confirmar
+                </button>
+                <button class="validate-btn invalid-btn" onclick="validateReport(false)">
+                    <i class="fas fa-times"></i> Não Existe
+                </button>
+            </div>
+        </div>
+
+        <!-- Reporte 2 -->
+        <div class="validation-card">
+            <div class="location-tag">1.2km de você</div>
+            <img src="https://www.jornalterceiravia.com.br/wp-content/uploads/2020/08/WhatsApp-Image-2020-08-08-at-09.56.533-549x309.jpeg" class="report-photo" alt="Reporte">
+            <h3>Lixo na Praça</h3>
+            <p>Reportado por: @ecowarrior</p>
+            <div class="validation-actions">
+                <button class="validate-btn valid-btn" onclick="validateReport(true)">
+                    <i class="fas fa-check"></i> Confirmar
+                </button>
+                <button class="validate-btn invalid-btn" onclick="validateReport(false)">
+                    <i class="fas fa-times"></i> Não Existe
+                </button>
+            </div>
+        </div>
+    </div>
+
+     <div class="community-container" id="achievementsTab" style="display: none;">
+        <!-- Conquista 1 -->
+        <div class="achievement-card">
+            <div class="distance-badge">12.5 km</div>
+            <div style="display: flex; gap: 15px; width: 100%;">
+                <div style="position: relative;">
+                    <img src="https://img.freepik.com/fotos-premium/selfie-de-um-ciclista-na-floresta-usando-capacete-e-oculos-de-sol-homem-sorrindo-enquanto-anda-de-bicicleta-ao-ar-livre-conceito-de-seguranca-ao-andar-de-bicicleta-nas-areas-rurais_782515-1320.jpg?w=360" class="user-photo" alt="Foto do usuário">
+                    <div class="photo-overlay">
+                        <i class="fas fa-camera camera-icon"></i>
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <h3>João Pedro</h3>
+                    <p>🚴♀️ Pedalou até o trabalho hoje!</p>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                        <i class="fas fa-heart" style="color: #e74c3c;"></i>
+                        <span>25 curtidas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conquista 2 -->
+        <div class="achievement-card">
+            <div class="distance-badge">8.2 km</div>
+            <div style="display: flex; gap: 15px; width: 100%;">
+                <div style="position: relative;">
+                    <img src="https://media.gettyimages.com/id/1389161345/pt/foto/cheerful-selfie-of-a-young-latin-woman-using-electric-push-scooter-at-city-center.jpg?s=612x612&w=gi&k=20&c=ei-NlCKpgiKWh5toDQVKXql-DnguJJ-QsysbQbUDNdI=" class="user-photo" alt="Foto do usuário">
+                    <div class="photo-overlay">
+                        <i class="fas fa-camera camera-icon"></i>
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <h3>Maria Alice</h3>
+                    <p>🛴 Novo recorde no patinete!</p>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                        <i class="fas fa-heart" style="color: #e74c3c;"></i>
+                        <span>42 curtidas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para upload de foto -->
+    <div id="photoModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.2); z-index: 1000;">
+        <h3>Adicionar Foto da Conquista</h3>
+        <input type="file" id="photoUpload" accept="image/*" style="margin: 15px 0;">
+        <button onclick="uploadPhoto()" style="background-color: #47919e; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Enviar</button>
+        <button onclick="document.getElementById('photoModal').style.display = 'none'" style="background-color: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;">Cancelar</button>
+    </div>
+
+
+    <script>
+
+        // Adicionar foto
+        document.querySelectorAll('.user-photo').forEach(photo => {
+            photo.addEventListener('click', () => {
+                document.getElementById('photoModal').style.display = 'block';
+            });
+        });
+
+        function uploadPhoto() {
+            const input = document.getElementById('photoUpload');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const clickedPhoto = document.querySelector('.user-photo:hover');
+                    if(clickedPhoto) {
+                        clickedPhoto.src = e.target.result;
+                    }
+                    document.getElementById('photoModal').style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        // Controle de abas
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.community-container').forEach(tab => tab.style.display = 'none');
+            
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+            event.currentTarget.classList.add('active');
+        }
+
+        // Validação de reportes
+        function validateReport(isValid) {
+            const card = event.target.closest('.validation-card');
+            card.style.transform = 'translateX(' + (isValid ? '100%' : '-100%') + ')';
+            card.style.opacity = '0';
+            
+            setTimeout(() => {
+                card.remove();
+                if(isValid) alert('Obrigado por ajudar a manter a comunidade precisa! +5 pontos');
+            }, 300);
+        }
+
+        // Sistema de likes
+        function toggleLike(button) {
+            const icon = button.querySelector('i');
+            const isLiked = button.classList.contains('liked');
+            
+            button.classList.toggle('liked');
+            icon.classList.toggle('fa-heart');
+            icon.classList.toggle('fa-solid');
+            icon.classList.toggle('far');
+            
+            const count = parseInt(button.textContent.match(/\d+/) || 0);
+            button.innerHTML = `<i class="${isLiked ? 'far' : 'fas'} fa-heart"></i> ${isLiked ? count-1 : count+1}`;
+        }
+    </script>
+</body>
+</html>
